@@ -83,6 +83,15 @@ namespace RestaurantsInApi.Controllers
       return NoContent();
     }
 
+    [HttpGet("random")] // api/Cities/random
+    public async Task<ActionResult<City>> GetRandomCity()
+    {
+      var cities = await _db.Cities.ToListAsync();
+      var random = new Random();
+      int index = random.Next(cities.Count);
+      return cities[index];
+    }
+
     private bool CityExists(string id)
     {
       return _db.Cities.Any(r => r.Id == id);

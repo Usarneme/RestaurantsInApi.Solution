@@ -18,5 +18,12 @@ namespace RestaurantsInApi.Controllers
     {
       _db = db;
     }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
+    {
+      return await _db.Restaurants.ToListAsync();
+    }
+
   }
 }

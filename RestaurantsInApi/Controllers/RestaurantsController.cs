@@ -36,5 +36,13 @@ namespace RestaurantsInApi.Controllers
       return restaurant;
     }
 
+    [HttpPost] // api/Restaurant
+    public async Task<ActionResult<Restaurant>> PostNewRestaurant(Restaurant r)
+    {
+      _db.Restaurants.Add(r);
+      await _db.SaveChangesAsync();
+      return CreatedAtAction("GetRestaurant", new { id = r.Id }, r);
+    }
+
   }
 }

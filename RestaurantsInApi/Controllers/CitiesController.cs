@@ -92,6 +92,17 @@ namespace RestaurantsInApi.Controllers
       return cities[index];
     }
 
+    [HttpGet("search/{query}")] // api/Cities/search/?
+    public async Task<ActionResult<City>> Search(string query)
+    {
+      var city = await _db.Cities.FirstOrDefaultAsync(r => r.Name.ToLower() == query.ToLower());
+      if (city == null)
+      {
+        return NotFound();
+      }
+      return city;
+    }
+
     private bool CityExists(string id)
     {
       return _db.Cities.Any(r => r.Id == id);

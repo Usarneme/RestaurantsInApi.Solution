@@ -95,7 +95,7 @@ namespace RestaurantsInApi.Controllers
     [HttpGet("search/{query}")] // api/Restaurants/search/?
     public async Task<ActionResult<Restaurant>> Search(string query)
     {
-      var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.Name.ToLowerCase() == query.ToLowerCase());
+      var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.Name.ToLower() == query.ToLower());
       if (restaurant == null)
       {
         return NotFound();

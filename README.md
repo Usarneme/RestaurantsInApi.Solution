@@ -31,7 +31,7 @@ A C# web API for getting and setting data about Restaurants in your town. Allows
 1. Clone this repository `git clone https://github.com/Usarneme/RestaurantsInApi.Solution`
 2. Enter the project directory `cd RestaurantsInApi.Solution/RestaurantsInApi`
 3. Install dependencies with `dotnet restore`
-4. Create a file called appsettings.json that contains your connection string for your MySql installation; `touch appsettings.json` then, for example, `nano appsettings.json` and then paste the following into this file:
+4. Create a file called appsettings.json to control startup aspects of the application; `touch appsettings.json` then, for example, `nano appsettings.json` and then paste the following into this file:
 
 ```
 {
@@ -47,7 +47,8 @@ A C# web API for getting and setting data about Restaurants in your town. Allows
 ```
 
 5. Start the web server with `dotnet run`
-6. Visit the website in your browser of choice (see console for details), typically at http://localhost:5000/
+6. Open your browser of choice and navigate to `http://localhost:5000/swagger/index.html` to view, inspect, and test all endpoints.
+7. (Optional) You may also use [Postman](https://www.postman.com/downloads/) to view and test all api endpoints.
 
 NOTE: If you have trouble accessing the website it is likely because your browser is warning you about an invalid SSL certificate. This project redirects you to an HTTPS site at port 5001 by default. Please check your browser's website for instructions on bypassing this warning; for example in Firefox you must Click on the Advanced button and then the "I understand the risks, take me to the site" link that will appear below the warning text. This app uses the default C# SSL certificate because this is a learning project; were it hosted on a real website it would require a real SSL cert to comply with browser security requirements.
 

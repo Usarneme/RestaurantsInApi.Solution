@@ -1,39 +1,39 @@
-@page "/cities"
+@page "/restaurants"
 @using System.Text.Json
 @using System.Text.Json.Serialization;
 @inject IHttpClientFactory ClientFactory
 
-<h1>Get all Cities</h1>
+<h1>Get all Restaurants</h1>
 
-@if (getCitiesError)
+@if (getRestaurantsError)
 {
-  <p>Unable to get Cities from API. Please try again later.</p>
+  <p>Unable to get Restaurants from API. Please try again later.</p>
 }
 else
 {
   <ul>
-  @foreach (var city in cities)
+  @foreach (var restaurant in restaurants)
     {
       <li>
-        @city.Name
-        @city.Id
-        @city.State
-        @city.Description
+        @restaurant.Name
+        @restaurant.Id
+        @restaurant.Menu
+        @restaurant.Description
       </li>
     }
   </ul>
 }
 
 @code {
-  private IEnumerable<Cities> cities = Array.Empty<Cities>();
-  private bool getCitiesError;
+  private IEnumerable<Restaurants> restaurants = Array.Empty<Restaurants>();
+  private bool getRestaurantsError;
   private bool shouldRender;
   protected override bool ShouldRender() => shouldRender;
 
   protected override async Task OnInitializedAsync()
   {
     var request = new HttpRequestMessage(HttpMethod.Get,
-    "http://localhost:4000/api/Cities");
+    "http://localhost:4000/api/Restaurants");
     request.Headers.Add("Accept", "application/json");
     request.Headers.Add("Accept", "text/plain");
     request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
@@ -45,18 +45,18 @@ else
     if (response.IsSuccessStatusCode)
     {
       using var responseStream = await response.Content.ReadAsStreamAsync();
-      cities = await JsonSerializer.DeserializeAsync
-      <IEnumerable<Cities>>(responseStream);
+      restaurants = await JsonSerializer.DeserializeAsync
+      <IEnumerable<Restaurants>>(responseStream);
     }
     else
     {
-      getCitiesError = true;
+      getRestaurantsError = true;
     }
 
     shouldRender = true;
   }
 
-  public class Cities
+  public class Restaurants
   {
     [JsonPropertyName("name")]
     public string Name { get; set; }
@@ -65,7 +65,7 @@ else
     public string Id { get; set; }
     [JsonPropertyName("description")]
     public string Description { get; set; }
-    [JsonPropertyName("state")]
-    public string State { get; set; }
+    [JsonPropertyName("menu")]
+    public string Menu { get; set; }
   }
 }

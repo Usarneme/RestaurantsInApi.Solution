@@ -44,5 +44,35 @@ namespace RestaurantsInApi.Controllers
       return CreatedAtAction("GetRestaurant", new { id = r.Id }, r);
     }
 
+    [HttpPut("{id}")] // api/Restaurant/#
+    public async Task<IActionResult> PutRestaurant(string id, Restaurant r)
+    {
+      if (id != r.Id)
+      {
+        return BadRequest();
+      }
+      _db.Entry(r).State = EntityState.Modified;
+      try
+      {
+        await _db.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!RestaurantExists(id))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
+      return NoContent();
+    }
+
+    private bool RestaurantExists(string id)
+    {
+      return _db.Restaurants.Any(r => r.Id == id);
+    }
   }
 }

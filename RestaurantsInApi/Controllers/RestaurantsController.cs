@@ -91,6 +91,18 @@ namespace RestaurantsInApi.Controllers
       int index = random.Next(restaurants.Count);
       return restaurants[index];
     }
+
+    [HttpGet("search/{query}")] // api/Restaurants/search/?
+    public async Task<ActionResult<Restaurant>> Search(string query)
+    {
+      var restaurant = await _db.Restaurants.FirstOrDefaultAsync(r => r.Name.ToLowerCase() == query.ToLowerCase());
+      if (restaurant == null)
+      {
+        return NotFound();
+      }
+      return restaurant;
+    }
+
     private bool RestaurantExists(string id)
     {
       return _db.Restaurants.Any(r => r.Id == id);

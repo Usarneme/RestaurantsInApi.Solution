@@ -1,0 +1,68 @@
+@page "/cities"
+@using System.Text.Json
+@using System.Text.Json.Serialization;
+@inject IHttpClientFactory ClientFactory
+
+<h1>Get all Cities</h1>
+
+@if (getCitiesError)
+{
+  <p>Unable to get Cities from API. Please try again later.</p>
+}
+else
+{
+  <ul>
+  @foreach (var city in cities)
+    {
+      <li>
+        @city.Name
+        @city.id
+        @city.State
+        @city.description
+      </li>
+    }
+  </ul>
+}
+
+@code {
+  private IEnumerable<Cities> cities = Array.Empty<Cities>();
+  private bool getCitiesError;
+  private bool shouldRender;
+  protected override bool ShouldRender() => shouldRender;
+
+  protected override async Task OnInitializedAsync()
+  {
+    var request = new HttpRequestMessage(HttpMethod.Get,
+    "http://localhost:4000/api/Cities");
+    request.Headers.Add("Accept", "application/json");
+    request.Headers.Add("Accept", "text/plain");
+    request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
+
+    var client = ClientFactory.CreateClient();
+
+    var response = await client.SendAsync(request);
+
+    if (response.IsSuccessStatusCode)
+    {
+      using var responseStream = await response.Content.ReadAsStreamAsync();
+      cities = await JsonSerializer.DeserializeAsync
+      <IEnumerable<Cities>>(responseStream);
+    }
+    else
+    {
+      getCitiesError = true;
+    }
+
+    shouldRender = true;
+  }
+
+  public class Cities
+  {
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    public string id { get; set; }
+    public string description { get; set; }
+    public string State { get; set; }
+  }
+}

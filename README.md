@@ -760,4 +760,13 @@ GPLv3 - No Copyright
 
 No known issues at this time. Please submit a pull request/add to the issue tracker above if you find something out of place.
 
-Thanks!
+---
+
+### Attribution and Thanks
+
+Immense gratitude for the blog post and GH repo from [Jason Watmore - @cornflourblue](https://github.com/cornflourblue) which enabled the JWT-authenticated route handling setup. After scouring dozens or articles and MS documentation pages Jason's simple writing style and minimal but effective code allowed it all to finally click!
+
+
+<br />
+<br />
+<p style="text-align: center;">Made with ❤️&nbsp; in Portland, OR, USA</p>

@@ -11,7 +11,7 @@ A C# web API for getting and setting data about Restaurants in your town.
 
 1. C#
 2. .NET
-3. ASP .NET Core
+3. ASP.NET Core
 
 ---
 

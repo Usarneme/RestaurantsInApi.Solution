@@ -19,10 +19,21 @@ namespace RestaurantsInApi.Controllers
       _db = db;
     }
 
-    [HttpGet]
+    [HttpGet] // api/Restaurants
     public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
     {
       return await _db.Restaurants.ToListAsync();
+    }
+
+    [HttpGet("{id}")] // api/Restaurants/#
+    public async Task<ActionResult<Restaurant>> GetRestaurant(string id)
+    {
+      var restaurant = await _db.Restaurants.FindAsync(id);
+      if (restaurant == null)
+      {
+        return NotFound();
+      }
+      return restaurant;
     }
 
   }

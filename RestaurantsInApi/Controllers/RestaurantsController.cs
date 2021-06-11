@@ -70,6 +70,19 @@ namespace RestaurantsInApi.Controllers
       return NoContent();
     }
 
+    [HttpDelete("{id}")] // api/Restaurants/#
+    public async Task<IActionResult> DeleteRestaurant(string id)
+    {
+      var restaurant = await _db.Restaurants.FindAsync(id);
+      if (restaurant == null)
+      {
+        return NotFound();
+      }
+      _db.Restaurants.Remove(restaurant);
+      await _db.SaveChangesAsync();
+      return NoContent();
+    }
+
     private bool RestaurantExists(string id)
     {
       return _db.Restaurants.Any(r => r.Id == id);

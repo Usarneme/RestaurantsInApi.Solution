@@ -6,5 +6,6 @@ namespace RestaurantsInApi.Models
   {
     public RestaurantsInApiContext(DbContextOptions<RestaurantsInApiContext> options) : base(options) {}
     public DbSet<Restaurant> Restaurants { get; set; }
+    public DbSet<City> Cities { get; set; }
   }
 }

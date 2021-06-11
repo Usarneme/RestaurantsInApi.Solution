@@ -13,7 +13,6 @@ namespace RestaurantsInApi.Models
     public string Description { get; set; }
     public float Longitude { get; set; }
     public float Latitude { get; set; }
-    public string State { get; set; }
     public string Menu { get; set; }
   }
 }

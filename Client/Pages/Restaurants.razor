@@ -1,4 +1,4 @@
-@page "/cities"
+@page "/restaurants"
 @using System;
 @using System.Diagnostics;
 @using System.Text;
@@ -6,10 +6,11 @@
 @using System.Text.Json.Serialization;
 @using System.Threading;
 @using Newtonsoft.Json;
+
 @using Client.Data;
 @inject HttpClient Http
 
-<h1>Get all Cities</h1>
+<h1>Get all Restaurants</h1>
 
 @if (loading == true)
 {
@@ -20,27 +21,24 @@
 else
 {
   <ul>
-  @foreach (var city in cities)
+  @foreach (var restaurant in restaurants)
     {
       <li>
-        @city.Name -
-        @city.State -
-        @city.Description -
-        (@city.Id)
+        @restaurant.Name -
+        @restaurant.Description -
+        (@restaurant.Id)
       </li>
     }
   </ul>
 
   <div class="container">
-    <EditForm Name="NewCityForm" Model="@newCity" OnValidSubmit="@HandleValidSubmit"
+    <EditForm Name="NewRestaurantForm" Model="@newRestaurant" OnValidSubmit="@HandleValidSubmit"
     OnInvalidSubmit="@HandleInvalidSubmit">
       <DataAnnotationsValidator />
       <label for="Name">Name</label>
-      <InputText required="required" @bind-Value="@newCity.Name" name="Name" id="name" />
+      <InputText required="required" @bind-Value="@newRestaurant.Name" name="Name" id="name" />
       <label for="Description">Description</label>
-      <InputText required="required" @bind-Value="@newCity.Description" name="Description" id="Description" />
-      <label for="State">State</label>
-      <InputText required="required" @bind-Value="@newCity.State" name="State" id="State" />
+      <InputText required="required" @bind-Value="@newRestaurant.Description" name="Description" id="Description" />
       <button type="submit" class="btn btn-block btn-primary">Submit</button>
 
       @if (displayValidationErrorMessages)
@@ -52,21 +50,21 @@ else
 }
 
 @code {
-  private IEnumerable<City> cities = Array.Empty<City>();
+  private IEnumerable<Restaurant> restaurants = Array.Empty<Restaurant>();
   private bool loading;
   protected override async Task OnInitializedAsync()
   {
-    await LoadAllCities();
+    await LoadAllRestaurants();
   }
 
-  private async Task LoadAllCities()
+  private async Task LoadAllRestaurants()
   {
     loading = true;
-    cities = await Http.GetFromJsonAsync<IEnumerable<City>>("http://localhost:4000/api/Cities");
+    restaurants = await Http.GetFromJsonAsync<IEnumerable<Restaurant>>("http://localhost:4000/api/Restaurants");
     loading = false;
   }
 
-  City newCity = new City();
+  Restaurant newRestaurant = new Restaurant();
   bool displayValidationErrorMessages = false;
 
   private async void HandleValidSubmit(EditContext context)
@@ -74,11 +72,11 @@ else
     Console.WriteLine("Valid form submit"); // this logs to the browser console
     loading = true;
     displayValidationErrorMessages = false;
-    var serialized = JsonConvert.SerializeObject(newCity);
+    var serialized = JsonConvert.SerializeObject(newRestaurant);
     var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
-    await Http.PostAsync("http://localhost:4000/api/Cities", stringContent);
-    await LoadAllCities();
-    Console.WriteLine("After load all cities. leaving form submit func. loading: {0}", loading);
+    await Http.PostAsync("http://localhost:4000/api/Restaurants", stringContent);
+    await LoadAllRestaurants();
+    Console.WriteLine("After load all restaurants. leaving form submit func. loading: {0}", loading);
     // force blazor to re-render after loading new data
     StateHasChanged();
   }
